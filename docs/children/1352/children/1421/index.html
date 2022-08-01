@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="EN">
+  <head>
+    <title>Pelican</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/flatly/bootstrap.min.css" id="nsd-bootstrap-theme-stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Nasdanika/html@master/model/app.gen/web-resources/css/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jstree@3.3.11/dist/themes/default/style.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.3.1/build/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-vue@2.21.2/dist/bootstrap-vue.css">
+    <script src="https://cdn.jsdelivr.net/gh/Nasdanika/html@master/model/app.gen/web-resources/js/common.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Nasdanika/html@master/model/app.gen/web-resources/js/dark-head.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jstree@3.3.11/dist/jstree.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.3.1/build/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-vue@2.21.2/dist/bootstrap-vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Nasdanika/html@master/model/app.gen/web-resources/js/components/table.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script><!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9BRJVLK8CC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9BRJVLK8CC');
+</script>    
+
+<script src="../../../../search-documents.js"></script>
+
+<script src="https://unpkg.com/lunr/lunr.js"></script>
+
+<script>
+// Script for full-text search of JsTree
+
+window.nsdJsTreeSearchCallback = function(str, node) { 
+    var sf = new $.vakata.search(str, true, { caseSensitive : false, fuzzy : false }); 
+    if (sf.search(node.text).isMatch) {
+		return true;
+	} 
+    let searchResult = this.search(str); 
+    for (const sr in searchResult) {
+        if (searchResult[sr].ref === node.original['data-nsd-action-uuid']) {
+            return true;
+        } 
+    } 
+    return false; 
+}.bind(lunr(function () {
+			  this.ref('id');
+			  this.field('title');
+			  this.field('content');
+
+			  for (const key in searchDocuments) {
+				  let doc = searchDocuments[key];
+				this.add({
+					id: doc['action-uuid'],
+					title: doc.title,
+					path: doc.path,
+					content: doc.content
+				});  
+			  }
+			}));
+</script>
+</head>
+  <body>
+    <div class="container-fluid nsd-app-container">
+      <div class="row">
+        <div class="col nsd-app-header">
+          <a href="https://www.nasdanika.org" title="Root action" data-nsd-action-uuid="35aa5850-8e9a-4c6e-8308-e4a8d3e7be3b" class="nsd-app-header-title">
+            <img src="https://docs.nasdanika.org/images/nasdanika-logo.png" class="nsd-app-label-icon">Nasdanika</a>
+          <ul class="nav nsd-app-header-navs">
+            <li class="nav-item">
+              <a href="../../../../search.html" data-nsd-action-uuid="bdc66934-d7f8-4a35-a9fc-4d4510945099" class="nav-link"><span class="fas fa-search nsd-app-label-icon"></span>Search</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col nsd-app-navbar">
+          <ul class="navbar navbar-light navbar-expand-lg">
+            <a href="../../../../index.html" data-nsd-action-uuid="00c788a0-5da1-40f4-a5f4-d28227f769d4" class="navbar-brand">LIVING BEINGS</a>
+            <button type="button" data-toggle="collapse" data-target="#nsd_els" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"><span class="navbar-toggler-icon"></span>
+            </button>
+            <div id="nsd_els" class="collapse navbar-collapse"></div>
+          </ul>
+        </div>
+      </div>
+      <div class="row nsd-app-content-row">
+        <div class="col nsd-app-navigation-panel">
+          <input type="text" id="1515-navigation-panel_searchInput" title="Full-text search. You can use wildcards, e.g. 'foo*' or 'f*o'; title or content fields, e.g. 'title:foo* bar'; boosts, e.g. 'foo^10 bar'; fuzzy matches, e.g. 'foo~1'; and term presence, e.g. '+foo bar -baz'" class="form-control mt-1">
+          <div id="1515-navigation-panel"></div>
+          <script>$(document).ready( function() {
+$('#1515-navigation-panel').jstree(function(tree) { tree.state.filter = function(state) { delete state.core.selected; return state; };  tree.search.search_callback = function(searchStr, node) { if (typeof window.nsdJsTreeSearchCallback === 'function') return window.nsdJsTreeSearchCallback(searchStr, node); var sf = new $.vakata.search(searchStr, true, { caseSensitive : false, fuzzy : false }); return sf.search(node.text).isMatch; }; return tree; }({"core":{"data":[{"a_attr":{"onclick":"window.location='../../../1351/index.html';"},"children":[{"a_attr":{"onclick":"window.location='../../../1351/children/1357/index.html';"},"id":"nsd-app-nav-item-1357","text":"Ant","data-nsd-action-uuid":"e676a3d2-6177-4ded-aa51-bc43eed5057e","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1351/children/1388/index.html';"},"id":"nsd-app-nav-item-1388","text":"Bee","data-nsd-action-uuid":"9de43814-6a53-43c7-8dfc-b2ac78dbc728","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1351/children/1389/index.html';"},"id":"nsd-app-nav-item-1389","text":"Hornet","data-nsd-action-uuid":"4fd65e31-a2a9-40ca-82e9-e1daa3a59283","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1351/children/1390/index.html';"},"id":"nsd-app-nav-item-1390","text":"Fly","data-nsd-action-uuid":"c1c73602-8f7e-45c5-864f-7ee945e1c522","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1351/children/1391/index.html';"},"id":"nsd-app-nav-item-1391","text":"Termite","data-nsd-action-uuid":"dbd015c4-0e76-4bc4-816b-26701d7aedd0","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1351/children/1392/index.html';"},"id":"nsd-app-nav-item-1392","text":"Mantis","data-nsd-action-uuid":"b084858b-19e6-43b1-a25f-c2c8c5ce4c04","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1351/children/1393/index.html';"},"id":"nsd-app-nav-item-1393","text":"Ladybug","data-nsd-action-uuid":"1783c4f8-7d70-4e18-9716-540ff42fe765","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1351/children/1394/index.html';"},"id":"nsd-app-nav-item-1394","text":"Butterfly","data-nsd-action-uuid":"e6bca440-46f3-4cff-8420-3624a0212819","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1351/children/1395/index.html';"},"id":"nsd-app-nav-item-1395","text":"Flea","data-nsd-action-uuid":"584b575d-0960-425a-a9e4-21a58f932ec9","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1351/children/1396/index.html';"},"id":"nsd-app-nav-item-1396","text":"Mosquito","data-nsd-action-uuid":"e6bc7c9c-19a2-46d9-9d41-c8ba48300141","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1351/children/1397/index.html';"},"id":"nsd-app-nav-item-1397","text":"Spider","data-nsd-action-uuid":"ff1f40c3-729e-48c7-b211-27f98846b76f","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1351/children/1398/index.html';"},"id":"nsd-app-nav-item-1398","text":"Bumblebee","data-nsd-action-uuid":"dbd0afae-7567-45c0-bb1a-adb4e7d7e7fd","type":"leaf"}],"id":"nsd-app-nav-item-1351","text":"Insect","data-nsd-action-uuid":"5f7d90f8-ca80-423c-8cde-9087cd085bf0"},{"a_attr":{"onclick":"window.location='../../index.html';"},"children":[{"a_attr":{"onclick":"window.location='../1413/index.html';"},"id":"nsd-app-nav-item-1413","text":"Hawk","data-nsd-action-uuid":"d35d70ca-e492-4c46-b6b8-7f7c7f5ee2b1","type":"leaf"},{"a_attr":{"onclick":"window.location='../1414/index.html';"},"id":"nsd-app-nav-item-1414","text":"Falcon","data-nsd-action-uuid":"f9e6f670-4a2e-4162-8b74-46735f33649a","type":"leaf"},{"a_attr":{"onclick":"window.location='../1415/index.html';"},"id":"nsd-app-nav-item-1415","text":"Sparrow","data-nsd-action-uuid":"51f0e0bb-c868-428c-851c-c6f39a0b524a","type":"leaf"},{"a_attr":{"onclick":"window.location='../1416/index.html';"},"id":"nsd-app-nav-item-1416","text":"Stork","data-nsd-action-uuid":"4ca0f7d4-6af5-4ba7-9faf-aed923b99444","type":"leaf"},{"a_attr":{"onclick":"window.location='../1417/index.html';"},"id":"nsd-app-nav-item-1417","text":"Flamingo","data-nsd-action-uuid":"96bb7754-06c4-489b-a145-4cd2c3f26c2e","type":"leaf"},{"a_attr":{"onclick":"window.location='../1418/index.html';"},"id":"nsd-app-nav-item-1418","text":"Penguin","data-nsd-action-uuid":"bad855de-a7ad-4897-a421-89c499659607","type":"leaf"},{"a_attr":{"onclick":"window.location='../1419/index.html';"},"id":"nsd-app-nav-item-1419","text":"Owl","data-nsd-action-uuid":"c4710637-f73c-4130-afa7-ff4627c5a039","type":"leaf"},{"a_attr":{"onclick":"window.location='../1412/index.html';"},"id":"nsd-app-nav-item-1412","text":"Pigeon","data-nsd-action-uuid":"1c2f5a23-fe63-457d-98f6-fce6b4919995","type":"leaf"},{"a_attr":{"onclick":"window.location='../1422/index.html';"},"id":"nsd-app-nav-item-1422","text":"Swallow","data-nsd-action-uuid":"97a1353d-ecc5-48b9-b3df-6555906f2961","type":"leaf"},{"state":{"selected":true},"id":"nsd-app-nav-item-1421","text":"Pelican","data-nsd-action-uuid":"d1a49ec6-3818-4c98-9628-73500ee24dd3","type":"leaf"},{"a_attr":{"onclick":"window.location='../1420/index.html';"},"id":"nsd-app-nav-item-1420","text":"Albatross","data-nsd-action-uuid":"1e316cbe-0d6e-4df8-a29f-a66e8b68f9b7","type":"leaf"},{"a_attr":{"onclick":"window.location='../1411/index.html';"},"id":"nsd-app-nav-item-1411","text":"Eagle","data-nsd-action-uuid":"a635ce80-d31f-47f0-8a57-d762ba936705","type":"leaf"}],"id":"nsd-app-nav-item-1352","text":"Bird","data-nsd-action-uuid":"f5735084-a3a5-49a0-b173-bea9dc581986"},{"a_attr":{"onclick":"window.location='../../../1353/index.html';"},"children":[{"a_attr":{"onclick":"window.location='../../../1353/children/1435/index.html';"},"id":"nsd-app-nav-item-1435","text":"Perch","data-nsd-action-uuid":"68ccc0ad-f085-40eb-a4db-00a87a696986","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1353/children/1436/index.html';"},"id":"nsd-app-nav-item-1436","text":"Mackerel","data-nsd-action-uuid":"bc6ca3ba-c36a-4666-9b6f-fba4ed085d21","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1353/children/1437/index.html';"},"id":"nsd-app-nav-item-1437","text":"Tuna","data-nsd-action-uuid":"0761374b-925c-4dfd-bc0b-b6b48cad275e","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1353/children/1438/index.html';"},"id":"nsd-app-nav-item-1438","text":"Shark","data-nsd-action-uuid":"7ee10f7c-b28a-4533-9bee-d2e4ad411169","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1353/children/1439/index.html';"},"id":"nsd-app-nav-item-1439","text":"Whale","data-nsd-action-uuid":"5275f0d3-169c-4297-9397-6907c876ed98","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1353/children/1440/index.html';"},"id":"nsd-app-nav-item-1440","text":"Bass","data-nsd-action-uuid":"23e3250b-8fb9-404f-a515-4a11227c9c56","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1353/children/1442/index.html';"},"id":"nsd-app-nav-item-1442","text":"Oyster","data-nsd-action-uuid":"f514f3c3-41d2-4dda-a665-1b406144517d","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1353/children/1441/index.html';"},"id":"nsd-app-nav-item-1441","text":"Eel","data-nsd-action-uuid":"75ef65c4-d0e3-471a-937b-0980d221358e","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1353/children/1443/index.html';"},"id":"nsd-app-nav-item-1443","text":"Ray","data-nsd-action-uuid":"c3c1a283-babf-4511-80dd-64c4ea9f25c8","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1353/children/1444/index.html';"},"id":"nsd-app-nav-item-1444","text":"Trout","data-nsd-action-uuid":"c192b443-2300-4624-a3ea-a68b5894ac9e","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1353/children/1445/index.html';"},"id":"nsd-app-nav-item-1445","text":"Catfish","data-nsd-action-uuid":"63e9d2d6-1905-4d83-9fe8-b1c193e88841","type":"leaf"}],"id":"nsd-app-nav-item-1353","text":"Fish","data-nsd-action-uuid":"068851b3-5c80-4cbd-8310-b60d4a969791"},{"a_attr":{"onclick":"window.location='../../../1354/index.html';"},"children":[{"a_attr":{"onclick":"window.location='../../../1354/children/1457/index.html';"},"id":"nsd-app-nav-item-1457","text":"Streptococcus","data-nsd-action-uuid":"7c0185c2-75b3-48a8-a827-3ee8a60756f3","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1354/children/1459/index.html';"},"id":"nsd-app-nav-item-1459","text":"Lactobacyllus","data-nsd-action-uuid":"4938480b-c642-41fb-b60d-512fe70006d2","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1354/children/1460/index.html';"},"id":"nsd-app-nav-item-1460","text":"Helicobacter","data-nsd-action-uuid":"ce25f22b-1b8f-4fd5-891d-6355a22f972d","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1354/children/1461/index.html';"},"id":"nsd-app-nav-item-1461","text":"Bifidobacterium","data-nsd-action-uuid":"c48478ec-4ea3-489d-991a-0caa33fa2e38","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1354/children/1458/index.html';"},"id":"nsd-app-nav-item-1458","text":"Echericia Colli","data-nsd-action-uuid":"3ba2d98b-5b2b-484a-83f6-86dfdef21036","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1354/children/1462/index.html';"},"id":"nsd-app-nav-item-1462","text":"Staphyllococcus","data-nsd-action-uuid":"74dd7e73-8110-4cf8-a847-c603c152ecd9","type":"leaf"}],"id":"nsd-app-nav-item-1354","text":"Bacteria","data-nsd-action-uuid":"99bddbee-d10e-491d-b7ec-947814c5ecb4"},{"a_attr":{"onclick":"window.location='../../../1355/index.html';"},"children":[{"a_attr":{"onclick":"window.location='../../../1355/children/1478/index.html';"},"id":"nsd-app-nav-item-1478","text":"Chytrid","data-nsd-action-uuid":"637cef77-0ae4-40b5-a13f-2139f5a2ead9","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1355/children/1468/index.html';"},"id":"nsd-app-nav-item-1468","text":"Zygomycota","data-nsd-action-uuid":"68d571ef-900f-434b-97ea-e471de2f6e48","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1355/children/1469/index.html';"},"id":"nsd-app-nav-item-1469","text":"Script Writing","data-nsd-action-uuid":"fa25a731-865e-402f-a3a6-ef4cd64abe45","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1355/children/1470/index.html';"},"id":"nsd-app-nav-item-1470","text":"Ascomycota","data-nsd-action-uuid":"19691e34-5072-4fd0-9ff3-69a334481fa3","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1355/children/1471/index.html';"},"id":"nsd-app-nav-item-1471","text":"Basidiomycota","data-nsd-action-uuid":"0eec8a0f-fbdd-4feb-9d3a-3c123ee9a412","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1355/children/1472/index.html';"},"id":"nsd-app-nav-item-1472","text":"Mushroom","data-nsd-action-uuid":"b0cf233f-9a6d-4e71-9085-a79d4b8bc640","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1355/children/1473/index.html';"},"id":"nsd-app-nav-item-1473","text":"Lichen","data-nsd-action-uuid":"04c2db86-e313-42a7-a88e-6dcc1873f5df","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1355/children/1474/index.html';"},"id":"nsd-app-nav-item-1474","text":"Bread Mold","data-nsd-action-uuid":"3142c344-1944-46e1-b415-5d7bd070582a","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1355/children/1475/index.html';"},"id":"nsd-app-nav-item-1475","text":"Yeast","data-nsd-action-uuid":"4eed9984-a133-4f90-a120-1cd3b3fa0953","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1355/children/1476/index.html';"},"id":"nsd-app-nav-item-1476","text":"Zygospore","data-nsd-action-uuid":"008491c8-fe1a-4c0c-a72a-6b764b75cb4c","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1355/children/1477/index.html';"},"id":"nsd-app-nav-item-1477","text":"Truffle","data-nsd-action-uuid":"24cebd2c-e438-4c26-9723-af9c82305a71","type":"leaf"}],"id":"nsd-app-nav-item-1355","text":"Fungi","data-nsd-action-uuid":"6be977ab-3a0c-4c49-9a1f-1d3ae74dcd32"},{"a_attr":{"onclick":"window.location='../../../1356/index.html';"},"children":[{"a_attr":{"onclick":"window.location='../../../1356/children/1501/index.html';"},"id":"nsd-app-nav-item-1501","text":"Rose","data-nsd-action-uuid":"b4fa4053-cf8e-4c16-85aa-fe37ed4fafb9","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1356/children/1500/index.html';"},"id":"nsd-app-nav-item-1500","text":"Gladiola","data-nsd-action-uuid":"186a899c-652b-411a-9494-2bb542607a20","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1356/children/1499/index.html';"},"id":"nsd-app-nav-item-1499","text":"Orchid","data-nsd-action-uuid":"b219b8d1-5238-49ca-9510-ce3e16439886","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1356/children/1498/index.html';"},"id":"nsd-app-nav-item-1498","text":"Gerbera","data-nsd-action-uuid":"bad6f991-b131-4615-9c4a-696f516f799e","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1356/children/1497/index.html';"},"id":"nsd-app-nav-item-1497","text":"Poppy","data-nsd-action-uuid":"39aac3b6-7a33-459f-82f5-744c7b0d0962","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1356/children/1496/index.html';"},"id":"nsd-app-nav-item-1496","text":"Dandelion","data-nsd-action-uuid":"563cddda-9ee9-4392-ba95-06c7e531bc43","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1356/children/1495/index.html';"},"id":"nsd-app-nav-item-1495","text":"Lilac","data-nsd-action-uuid":"622ff75e-2a31-4822-821c-2ffbad139242","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1356/children/1494/index.html';"},"id":"nsd-app-nav-item-1494","text":"Tulip","data-nsd-action-uuid":"093c7ac6-a094-46bf-a15c-b1ee6ae6efd4","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1356/children/1493/index.html';"},"id":"nsd-app-nav-item-1493","text":"Cactus","data-nsd-action-uuid":"4ef3f50f-5bdc-40b8-b6b3-77583ca60f08","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1356/children/1492/index.html';"},"id":"nsd-app-nav-item-1492","text":"Petunia","data-nsd-action-uuid":"30474bd5-78c5-444a-9a2e-d20911f06d32","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1356/children/1491/index.html';"},"id":"nsd-app-nav-item-1491","text":"Dahlia","data-nsd-action-uuid":"a8886bd7-de55-45b2-932f-721e984e4ea7","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1356/children/1490/index.html';"},"id":"nsd-app-nav-item-1490","text":"Philadendron","data-nsd-action-uuid":"0049b592-298d-4a41-a961-086f8817c712","type":"leaf"}],"id":"nsd-app-nav-item-1356","text":"Flower","data-nsd-action-uuid":"e0eea87a-53ed-4cbe-9fda-4c4c757c62d1"},{"a_attr":{"onclick":"window.location='../../../1516/index.html';"},"children":[{"a_attr":{"onclick":"window.location='../../../1516/children/1523/index.html';"},"id":"nsd-app-nav-item-1523","text":"Lime","data-nsd-action-uuid":"449e7303-32f6-42a5-b267-f6c815daee23","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1516/children/1524/index.html';"},"id":"nsd-app-nav-item-1524","text":"Chestnut","data-nsd-action-uuid":"6b0594a9-2035-4f13-a565-d0b75d350114","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1516/children/1525/index.html';"},"id":"nsd-app-nav-item-1525","text":"Beech","data-nsd-action-uuid":"525da4a1-f396-4076-8067-a14da64e7a90","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1516/children/1526/index.html';"},"id":"nsd-app-nav-item-1526","text":"Poplar","data-nsd-action-uuid":"e5fac7ec-df37-4cf8-8d11-d023ffa23b9d","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1516/children/1527/index.html';"},"id":"nsd-app-nav-item-1527","text":"Willow","data-nsd-action-uuid":"32b4c552-3273-48a9-adf6-52af774839be","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1516/children/1529/index.html';"},"id":"nsd-app-nav-item-1529","text":"Acacia","data-nsd-action-uuid":"0d6a751c-8c98-46ea-968d-e684b7fcaffd","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1516/children/1522/index.html';"},"id":"nsd-app-nav-item-1522","text":"Pine","data-nsd-action-uuid":"2d2daa0f-f885-4f52-9214-92e987d7f969","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1516/children/1517/index.html';"},"id":"nsd-app-nav-item-1517","text":"Organisation","data-nsd-action-uuid":"cc3e0594-1a4f-48fe-9122-d08892e00899","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1516/children/1518/index.html';"},"id":"nsd-app-nav-item-1518","text":"Oak","data-nsd-action-uuid":"e09d5da1-d0f1-48df-ae9a-051695783822","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1516/children/1519/index.html';"},"id":"nsd-app-nav-item-1519","text":"Birch","data-nsd-action-uuid":"a047ac57-cfdf-455c-ae78-c509eaac94c9","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1516/children/1520/index.html';"},"id":"nsd-app-nav-item-1520","text":"Silverfern","data-nsd-action-uuid":"be2fb292-2d04-4168-b0d3-f2dcdad7a56a","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1516/children/1521/index.html';"},"id":"nsd-app-nav-item-1521","text":"Personal Development","data-nsd-action-uuid":"2abf84ff-70de-4d9d-8645-6c2b7ad28873","type":"leaf"}],"id":"nsd-app-nav-item-1516","text":"Tree","data-nsd-action-uuid":"b1d9b5f4-e768-4261-8213-ade3e2c1fae9"},{"a_attr":{"onclick":"window.location='../../../1350/index.html';"},"children":[{"a_attr":{"onclick":"window.location='../../../1350/children/1367/index.html';"},"id":"nsd-app-nav-item-1367","text":"Lion","data-nsd-action-uuid":"036e5d10-7135-4dfa-aa3e-fdcaf2330814","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1350/children/1358/index.html';"},"id":"nsd-app-nav-item-1358","text":"Dolphin","data-nsd-action-uuid":"a3787104-39a5-4633-bdab-30895420970c","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1350/children/1368/index.html';"},"id":"nsd-app-nav-item-1368","text":"Elephant","data-nsd-action-uuid":"ed7a063b-ac68-411f-a6c7-75d1ea18bfa2","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1350/children/1369/index.html';"},"children":[{"a_attr":{"onclick":"window.location='../../../1350/children/1369/children/n_fZZ1ChsSkuUx8OZW5P-2/index.html';"},"children":[{"a_attr":{"onclick":"window.location='../../../1350/children/1369/children/n_fZZ1ChsSkuUx8OZW5P-2/children/n_fZZ1ChsSkuUx8OZW5P-7/index.html';"},"id":"nsd-app-nav-item-n_fZZ1ChsSkuUx8OZW5P-7","text":"Chai","data-nsd-action-uuid":"e117f199-e550-4649-83a5-7ba6839a1632","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1350/children/1369/children/n_fZZ1ChsSkuUx8OZW5P-2/children/n_fZZ1ChsSkuUx8OZW5P-6/index.html';"},"id":"nsd-app-nav-item-n_fZZ1ChsSkuUx8OZW5P-6","text":"Earl Grey","data-nsd-action-uuid":"4a1f1a79-0ee3-445e-a62a-bc33bf3cd76d","type":"leaf"}],"id":"nsd-app-nav-item-n_fZZ1ChsSkuUx8OZW5P-2","text":"Maine Coon","data-nsd-action-uuid":"fb18223f-a807-4dc2-8786-28bc46c41ad9"},{"a_attr":{"onclick":"window.location='../../../1350/children/1369/children/n_fZZ1ChsSkuUx8OZW5P-3/index.html';"},"children":[{"a_attr":{"onclick":"window.location='../../../1350/children/1369/children/n_fZZ1ChsSkuUx8OZW5P-3/children/n_fZZ1ChsSkuUx8OZW5P-5/index.html';"},"id":"nsd-app-nav-item-n_fZZ1ChsSkuUx8OZW5P-5","text":"Coffee","data-nsd-action-uuid":"a21bf963-1890-4a95-9d7e-0b4c0c593da3","type":"leaf"}],"id":"nsd-app-nav-item-n_fZZ1ChsSkuUx8OZW5P-3","text":"Havana Brown","data-nsd-action-uuid":"36ec7072-6296-4dd6-8694-7f26b2650ac5"},{"a_attr":{"onclick":"window.location='../../../1350/children/1369/children/n_fZZ1ChsSkuUx8OZW5P-4/index.html';"},"children":[{"a_attr":{"onclick":"window.location='../../../1350/children/1369/children/n_fZZ1ChsSkuUx8OZW5P-4/children/n_fZZ1ChsSkuUx8OZW5P-8/index.html';"},"id":"nsd-app-nav-item-n_fZZ1ChsSkuUx8OZW5P-8","text":"Belka","data-nsd-action-uuid":"e21c0f3f-532e-40bc-8fb9-2aea06f74d97","type":"leaf"}],"id":"nsd-app-nav-item-n_fZZ1ChsSkuUx8OZW5P-4","text":"Savannah","data-nsd-action-uuid":"ba599239-b809-4373-b71d-3e2a309ebc1d"}],"id":"nsd-app-nav-item-1369","text":"Cat","data-nsd-action-uuid":"b8a47c28-2d57-4014-a4bc-6e2cc9969d83"},{"a_attr":{"onclick":"window.location='../../../1350/children/1370/index.html';"},"id":"nsd-app-nav-item-1370","text":"Giraffe","data-nsd-action-uuid":"b4e28232-b07d-4d6a-85b3-91ebebd97a29","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1350/children/1371/index.html';"},"id":"nsd-app-nav-item-1371","text":"Dog","data-nsd-action-uuid":"d1927a38-d153-4c48-928c-fba9681f86f7","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1350/children/1372/index.html';"},"id":"nsd-app-nav-item-1372","text":"Donkey","data-nsd-action-uuid":"c124d160-d5e3-4a95-acb0-4cd86ada0e34","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1350/children/1373/index.html';"},"id":"nsd-app-nav-item-1373","text":"Leopard","data-nsd-action-uuid":"c4bd04bb-a32d-4c8f-bc11-7cf47ce0318e","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1350/children/1374/index.html';"},"id":"nsd-app-nav-item-1374","text":"Horse","data-nsd-action-uuid":"ae4ed8cb-d1f2-42d9-8331-51078d8a16cd","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1350/children/1375/index.html';"},"id":"nsd-app-nav-item-1375","text":"Zebra","data-nsd-action-uuid":"28ffdb69-0738-4d22-8406-17dda94a4e6a","type":"leaf"},{"a_attr":{"onclick":"window.location='../../../1350/children/1376/index.html';"},"id":"nsd-app-nav-item-1376","text":"Gazelle","data-nsd-action-uuid":"26f87cca-11d7-42ce-9a7d-65bb8aa7359b","type":"leaf"}],"id":"nsd-app-nav-item-1350","text":"Mammal","data-nsd-action-uuid":"2cb5ae38-6b97-47f3-bb2d-15e06f1c724f"}]},"search":{"show_only_matches":true,"show_only_matches_children":true},"types":{"leaf":{"icon":"jstree-file"}},"plugins":["state","type","search"],"state":{"key":"1515-navigation-panel"}}));
+// Tokens: searchInputSelector, timer, treeSelector
+$('#1515-navigation-panel_searchInput').keyup(function () {
+    if (window['nsd_jstTreeSearchTimer_nsd_eon']) { 
+		clearTimeout(window['nsd_jstTreeSearchTimer_nsd_eon']); 
+	}
+    window['nsd_jstTreeSearchTimer_nsd_eon'] = setTimeout(function () {
+      var v = $('#1515-navigation-panel_searchInput').val();
+      $('#1515-navigation-panel').jstree(true).search(v);
+    }, 250);
+  });
+
+});</script>
+        </div>
+        <div data-nsd-action-uuid="d1a49ec6-3818-4c98-9628-73500ee24dd3" class="col nsd-app-content-panel">
+          <div class="container-fluid">
+            <div class="row nsd-app-content-panel-breadcrumb-row">
+              <div class="col">
+                <nav aria-label="breadcrumb" class="nsd-app-content-panel-breadcrumb">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                      <a href="../../index.html" data-nsd-action-uuid="f5735084-a3a5-49a0-b173-bea9dc581986">Bird</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                      <a data-nsd-action-uuid="d1a49ec6-3818-4c98-9628-73500ee24dd3">Pelican</a>
+                    </li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+            <div class="row nsd-app-content-panel-title-and-items-row">
+              <div class="col-auto">
+                <h1><span data-nsd-action-uuid="d1a49ec6-3818-4c98-9628-73500ee24dd3" class="nsd-app-content-panel-title">Pelican</span>
+                </h1>
+              </div>
+            </div>
+            <div class="row nsd-app-content-panel-content-row">
+              <div class="col">
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col"><ul>
+</ul>
+</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col nsd-app-footer">
+          <ul class="nav nsd-app-footer-navs">
+            <li class="nav-item">
+              <a href="https://github.com/Nasdanika/demo-drawio-map" data-nsd-action-uuid="49d87fa9-2984-4035-bfab-edd667a30bfb" class="nav-link"><span class="fab fa-github nsd-app-label-icon"></span>Source</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  
+</body></html>
