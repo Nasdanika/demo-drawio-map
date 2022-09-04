@@ -4,3 +4,7 @@ Demo of generation of a web site from a (mind) map drawio diagram using [Nasdani
 [Application Model Semantic Mapping](https://docs.nasdanika.org/modules/html/modules/models/modules/app/modules/model/index.html#drawio-resource-factory).
 
 ${diagram}
+
+## Table of Contents
+
+${toc}
