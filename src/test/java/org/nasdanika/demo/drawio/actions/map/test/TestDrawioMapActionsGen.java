@@ -1,6 +1,6 @@
 package org.nasdanika.demo.drawio.actions.map.test;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.nasdanika.demo.drawio.actions.map.DrawioMapActionsGenerator;
 
 public class TestDrawioMapActionsGen {

@@ -1,3 +1,11 @@
 engineering-product:
-   name: Map
-   path: map
+  name: Map
+  path: map
+  documentation:
+    content-interpolator:
+      source:
+        content-markdown:
+          style: true
+          source:
+            content-resource: doc.md
+  
