@@ -4,5 +4,5 @@ module org.nasdanika.demo.drawio.actions.map {
 	requires org.nasdanika.html.model.app.drawio;
 	requires org.nasdanika.html.jstree;
 	requires org.eclipse.emf.ecore.xmi;
-	requires sitemapgen4j;	
+	requires sitemapgen4j;
 }
