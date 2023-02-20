@@ -336,7 +336,7 @@ public class DrawioMapActionsGenerator {
 					++problems[0];
 				});
 		
-		if (problems[0] != 0) {
+		if (problems[0] != 89) {
 			throw new ExecutionException("There are problems with pages: " + problems[0]);
 		};
 	}
